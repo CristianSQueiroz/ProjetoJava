@@ -28,7 +28,7 @@ public class UsuarioController {
     public boolean Logar(Usuario usuario){
         String cmd = "SELECT count(1) FROM `Usuario` WHERE USUARIO_NM = "+MySqlConnect.aplicarApostofo(usuario.getUserName())
                 +"and PASSWORD = "+MySqlConnect.aplicarApostofo(usuario.getPassword());
-        ArrayList<HashMap> retorno = MySqlConnect.getInstance().executaConsultaPadrao(cmd);
+        ArrayList<HashMap> retorno = MySqlConnect.getInstance().executaConsultaPadrao(cmd,false);
         if(retorno.size()>0){
             Object retornoConsulta = retorno.get(0).get("count(1)");
             return ((long)retornoConsulta!=0);

@@ -5,6 +5,8 @@
  */
 package View;
 
+import Controller.CurriculoController;
+import Model.Curriculo;
 import Model.Usuario;
 
 /**
@@ -24,15 +26,15 @@ public class MainWindow extends javax.swing.JFrame {
     }
     
     public void AbrirCadastroCurriculo(){
-        
+        Curriculo curriculo = CurriculoController.GetInstance().GetCurriculo(usuario);
     }
     
     public void CarregarCurriculo(){
-        
+        Curriculo curriculo = CurriculoController.GetInstance().GetCurriculo(usuario);
     }
     
     public void ExluirCurriculo(){
-        
+        CurriculoController.GetInstance().DeletarCurriculo(usuario);
     }
 
     /**
@@ -76,12 +78,27 @@ public class MainWindow extends javax.swing.JFrame {
         CurriculoJM.add(Cadastrar);
 
         Consultar.setText("Consultar");
+        Consultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ConsultarActionPerformed(evt);
+            }
+        });
         CurriculoJM.add(Consultar);
 
         Atualizar.setText("Atualizar");
+        Atualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AtualizarActionPerformed(evt);
+            }
+        });
         CurriculoJM.add(Atualizar);
 
         Excluir.setText("Excluir");
+        Excluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExcluirActionPerformed(evt);
+            }
+        });
         CurriculoJM.add(Excluir);
 
         jMenuBar1.add(CurriculoJM);
@@ -114,6 +131,18 @@ public class MainWindow extends javax.swing.JFrame {
                 }
             });        // TODO add your handling code here:
     }//GEN-LAST:event_CadastrarActionPerformed
+
+    private void ExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExcluirActionPerformed
+        ExluirCurriculo();
+    }//GEN-LAST:event_ExcluirActionPerformed
+
+    private void ConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultarActionPerformed
+        AbrirCadastroCurriculo();        // TODO add your handling code here:
+    }//GEN-LAST:event_ConsultarActionPerformed
+
+    private void AtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtualizarActionPerformed
+        CarregarCurriculo();
+    }//GEN-LAST:event_AtualizarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

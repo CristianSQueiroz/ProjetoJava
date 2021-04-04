@@ -42,4 +42,31 @@ public class CurriculoController {
                 +")";
         return MySqlConnect.getInstance().executaComandoPadrao(cmd);
     }
+    
+    public boolean DeletarCurriculo(Usuario usuario){
+        String cmd = "Delete from CURRICULO WHERE USUARIO_NM ="+MySqlConnect.aplicarApostofo(usuario.getUserName());
+        return MySqlConnect.getInstance().executaComandoPadrao(cmd);
+    }
+    
+    public Curriculo GetCurriculo(Usuario usuario){
+        String cmd = "SELECT * FROM CURRICULO WHERE USUARIO_NM ="+MySqlConnect.aplicarApostofo(usuario.getUserName());
+        ArrayList<HashMap> retorno = MySqlConnect.getInstance().executaConsultaPadrao(cmd);
+        if(retorno.size()>0){
+            HashMap retornoHM = retorno.get(0);
+            HashMap experiencias = new HashMap();
+            experiencias.put("JavaScript", (Integer)retornoHM.get("JAVASCRIPT_EXP"));
+                    experiencias.put("SQL", (Integer)retornoHM.get("SQL_EXP"));
+                    experiencias.put("CSharp", (Integer)retornoHM.get("CSHARP_EXP"));
+                    experiencias.put("GitHub", (Integer)retornoHM.get("GITHUB_EXP"));
+            Curriculo curriculo = new Curriculo((String)retornoHM.get("USUARIO_NM"),
+                    (String)retornoHM.get("NOME_COMPLETO"),
+                    (String)retornoHM.get("DT_NASCIMENTO"),
+                    (String)retornoHM.get("GENERO"),
+                    (String)retornoHM.get("ESCOLARIDADE"),
+                    experiencias, 
+                    (String)retornoHM.get("EXPERIENCIAADD"));
+            return curriculo;
+        }
+        return null;
+    }
 }
