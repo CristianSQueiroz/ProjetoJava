@@ -8,6 +8,7 @@ package View;
 import Controller.CurriculoController;
 import Model.Curriculo;
 import Model.Usuario;
+import javax.swing.JPanel;
 
 /**
  *
@@ -26,11 +27,17 @@ public class MainWindow extends javax.swing.JFrame {
     }
     
     public void AbrirCadastroCurriculo(){
-        Curriculo curriculo = CurriculoController.GetInstance().GetCurriculo(usuario);
+        JPanel curriculoPanel = new CurriculoJPanel(usuario.getUserName(),null);
+        MainPanel.add(curriculoPanel);
+        curriculoPanel.setVisible(true);
+        //Curriculo curriculo = CurriculoController.GetInstance().GetCurriculo(usuario);
     }
     
     public void CarregarCurriculo(){
         Curriculo curriculo = CurriculoController.GetInstance().GetCurriculo(usuario);
+        JPanel curriculoPanel = new CurriculoJPanel(usuario.getUserName(),curriculo);
+        MainPanel.add(curriculoPanel);
+        curriculoPanel.setVisible(true);
     }
     
     public void ExluirCurriculo(){
@@ -109,27 +116,24 @@ public class MainWindow extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(814, Short.MAX_VALUE)
                 .addComponent(MainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 400, Short.MAX_VALUE))
+                .addGap(130, 130, 130))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(65, 65, 65)
                 .addComponent(MainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 279, Short.MAX_VALUE))
+                .addContainerGap(719, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void CadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CadastrarActionPerformed
-        this.setVisible(false);
-            java.awt.EventQueue.invokeLater(new Runnable() {
-                public void run() {
-                    new CadastroCurriculo(usuario.getUserName()).setVisible(true);
-                }
-            });        // TODO add your handling code here:
+        AbrirCadastroCurriculo();// TODO add your handling code here:
     }//GEN-LAST:event_CadastrarActionPerformed
 
     private void ExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExcluirActionPerformed

@@ -55,9 +55,9 @@ public class CurriculoController {
             HashMap retornoHM = retorno.get(0);
             HashMap experiencias = new HashMap();
             experiencias.put("JavaScript", (Integer)retornoHM.get("JAVASCRIPT_EXP"));
-                    experiencias.put("SQL", (Integer)retornoHM.get("SQL_EXP"));
-                    experiencias.put("CSharp", (Integer)retornoHM.get("CSHARP_EXP"));
-                    experiencias.put("GitHub", (Integer)retornoHM.get("GITHUB_EXP"));
+            experiencias.put("SQL", (Integer)retornoHM.get("SQL_EXP"));
+            experiencias.put("CSharp", (Integer)retornoHM.get("CSHARP_EXP"));
+            experiencias.put("GitHub", (Integer)retornoHM.get("GITHUB_EXP"));
             Curriculo curriculo = new Curriculo((String)retornoHM.get("USUARIO_NM"),
                     (String)retornoHM.get("NOME_COMPLETO"),
                     (String)retornoHM.get("DT_NASCIMENTO"),
