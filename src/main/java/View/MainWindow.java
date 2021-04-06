@@ -17,7 +17,9 @@ import javax.swing.JPanel;
  */
 public class MainWindow extends javax.swing.JFrame {
 
-    private Usuario usuario;
+    private static Usuario usuario;
+    private static MainWindow instance;
+    
     
     /**
      * Creates new form MainWindow
@@ -26,6 +28,13 @@ public class MainWindow extends javax.swing.JFrame {
         this.usuario = usuario;
         initComponents();
         this.setLocationRelativeTo(null);
+    }
+    
+    public static MainWindow GetInstance(){
+        if(instance == null){
+            instance = new MainWindow(usuario);
+        }
+        return instance;
     }
     
     public void AbrirCadastroCurriculo(){
@@ -42,7 +51,10 @@ public class MainWindow extends javax.swing.JFrame {
     }
     
     public void AtualizarCurriculo(){
-        
+        Curriculo curriculo = CurriculoController.GetInstance().GetCurriculo(usuario);
+        JPanel curriculoPanel = new CurriculoJPanel(usuario.getUserName(),curriculo,true);
+        MainPanel.add(curriculoPanel);
+        curriculoPanel.setVisible(true);
     }
     
     public void ExluirCurriculo(){
@@ -75,6 +87,11 @@ public class MainWindow extends javax.swing.JFrame {
         jMenu1.setText("File");
 
         SairJMI.setText("Sair");
+        SairJMI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SairJMIActionPerformed(evt);
+            }
+        });
         jMenu1.add(SairJMI);
 
         jMenuBar1.add(jMenu1);
@@ -156,6 +173,10 @@ public class MainWindow extends javax.swing.JFrame {
     private void AtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtualizarActionPerformed
         AtualizarCurriculo();
     }//GEN-LAST:event_AtualizarActionPerformed
+
+    private void SairJMIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SairJMIActionPerformed
+        System.exit(DO_NOTHING_ON_CLOSE);
+    }//GEN-LAST:event_SairJMIActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

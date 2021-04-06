@@ -43,6 +43,20 @@ public class CurriculoController {
         return MySqlConnect.getInstance().executaComandoPadrao(cmd);
     }
     
+    public boolean Atualizar(Curriculo curriculo){
+        String cmd = "UPDATE CURRICULO SET NOME_COMPLETO = "+MySqlConnect.aplicarApostofo(curriculo.getNomeCompleto())
+                +", DT_NASCIMENTO="+MySqlConnect.aplicarApostofo(curriculo.getDataNascimento())
+                +",GENERO="+MySqlConnect.aplicarApostofo(curriculo.getGenero())
+                +",ESCOLARIDADE="+MySqlConnect.aplicarApostofo(curriculo.getEscolaridade())
+                +",EXPERIENCIAADD="+MySqlConnect.aplicarApostofo(curriculo.getExperienciasAdd())
+                +",JAVASCRIPT_EXP="+curriculo.GetExperienciaJS()
+                +",SQL_EXP="+curriculo.GetExperienciaSQL()
+                +",CSHARP_EXP="+curriculo.GetExperienciaCSharp()
+                +",GITHUB_EXP="+curriculo.GetExperienciaGitHub()
+                +" WHERE USUARIO_NM="+ MySqlConnect.aplicarApostofo(curriculo.getUsuarioNM());
+        return MySqlConnect.getInstance().executaComandoPadrao(cmd);
+    }
+    
     public boolean DeletarCurriculo(Usuario usuario){
         String cmd = "Delete from CURRICULO WHERE USUARIO_NM ="+MySqlConnect.aplicarApostofo(usuario.getUserName());
         return MySqlConnect.getInstance().executaComandoPadrao(cmd);

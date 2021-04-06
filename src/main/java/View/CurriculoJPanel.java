@@ -20,15 +20,17 @@ import javax.swing.JRadioButton;
 public class CurriculoJPanel extends javax.swing.JPanel {
 
         private String usuarioNM;
+        private Curriculo curriculo;
     /**
      * Creates new form CurriculoJPanel
      */
     public CurriculoJPanel(String usuarioNM,Curriculo curriculo,boolean editMode) {
         this.usuarioNM = usuarioNM;
+        this.curriculo = curriculo;
         initComponents();
         Init();
         if(curriculo!= null){
-            CarregarCurriculo(curriculo);
+            CarregarCurriculo();
         }
         BloquearCampos(editMode);
     }
@@ -43,7 +45,17 @@ public class CurriculoJPanel extends javax.swing.JPanel {
        BloquearJRadioButton(SQLBG,editMode);
        BloquearJRadioButton(CSharpBG,editMode);
        BloquearJRadioButton(GitHubBG,editMode);
-       
+       if(curriculo== null){
+           cadastrarButton.setText("Cadastrar");
+           cadastrarButton.setEnabled(true);
+           limparJButton.setEnabled(true);
+       }else{
+           if(editMode){
+               cadastrarButton.setText("Atualizar");
+           }
+           cadastrarButton.setEnabled(editMode);
+           limparJButton.setEnabled(editMode);
+       }
     }
     
     private void BloquearJRadioButton(ButtonGroup bg ,boolean editMode){
@@ -62,7 +74,7 @@ public class CurriculoJPanel extends javax.swing.JPanel {
         } 
     }
     
-    public void CarregarCurriculo(Curriculo curriculo){
+    public void CarregarCurriculo(){
         nomeCompletoJTF.setText(curriculo.getNomeCompleto());
         dataJTF.setText(curriculo.getDataNascimento());
         jTextArea1.setText(curriculo.getExperienciasAdd());
@@ -371,24 +383,31 @@ public class CurriculoJPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cadastrarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarButtonActionPerformed
-        Cadastrar();
+            Cadastrar();
     }//GEN-LAST:event_cadastrarButtonActionPerformed
 
      private void Cadastrar(){
-        //Trim é para tirar os espaços
         String nomeCompleto = nomeCompletoJTF.getText().trim();
         String dataNascimento = dataJTF.getText().trim();
         String genero = generoJComboBox.getSelectedItem().toString();
         String escolaridade = escolaridadeJCB.getSelectedItem().toString();
         String experienciasAdd = jTextArea1.getText().trim();
-        Curriculo curriculo = new Curriculo(this.usuarioNM,
+        Curriculo curriculoTemp = new Curriculo(this.usuarioNM,
                 nomeCompleto, 
                 dataNascimento, 
                 genero,
                 escolaridade,
                 getExperiencias(), 
                 experienciasAdd);
-        CurriculoController.GetInstance().Cadastrar(curriculo);
+        if(curriculo == null){
+            if(CurriculoController.GetInstance().Cadastrar(curriculoTemp)){
+                CloseJPanel();
+            }    
+        }else{
+            if(CurriculoController.GetInstance().Atualizar(curriculoTemp)){
+                CloseJPanel();
+            }    
+        }
     }
     
     
@@ -450,9 +469,13 @@ public class CurriculoJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_limparJButtonActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        this.setVisible(false);        // TODO add your handling code here:
+        CloseJPanel();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void CloseJPanel(){
+           this.setVisible(false);        // TODO add your handling code here:
+    }
+    
     public void Init(){
         //Java Script
         javaScriptBG.add(inicianteJS);
