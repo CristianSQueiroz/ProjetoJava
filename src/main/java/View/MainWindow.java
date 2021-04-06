@@ -8,6 +8,7 @@ package View;
 import Controller.CurriculoController;
 import Model.Curriculo;
 import Model.Usuario;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -24,20 +25,24 @@ public class MainWindow extends javax.swing.JFrame {
     public MainWindow(Usuario usuario) {
         this.usuario = usuario;
         initComponents();
+        this.setLocationRelativeTo(null);
     }
     
     public void AbrirCadastroCurriculo(){
-        JPanel curriculoPanel = new CurriculoJPanel(usuario.getUserName(),null);
+        JPanel curriculoPanel = new CurriculoJPanel(usuario.getUserName(),null,true);
         MainPanel.add(curriculoPanel);
         curriculoPanel.setVisible(true);
-        //Curriculo curriculo = CurriculoController.GetInstance().GetCurriculo(usuario);
     }
     
     public void CarregarCurriculo(){
         Curriculo curriculo = CurriculoController.GetInstance().GetCurriculo(usuario);
-        JPanel curriculoPanel = new CurriculoJPanel(usuario.getUserName(),curriculo);
+        JPanel curriculoPanel = new CurriculoJPanel(usuario.getUserName(),curriculo,false);
         MainPanel.add(curriculoPanel);
         curriculoPanel.setVisible(true);
+    }
+    
+    public void AtualizarCurriculo(){
+        
     }
     
     public void ExluirCurriculo(){
@@ -133,7 +138,11 @@ public class MainWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void CadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CadastrarActionPerformed
-        AbrirCadastroCurriculo();// TODO add your handling code here:
+        if(CurriculoController.GetInstance().HasCurriculoCadastrado(usuario)){
+            JOptionPane.showMessageDialog(this, "Já existe um curriculo cadastrado para este usuário");
+        }else{
+            AbrirCadastroCurriculo();// TODO add your handling code here:    
+        }
     }//GEN-LAST:event_CadastrarActionPerformed
 
     private void ExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExcluirActionPerformed
@@ -141,11 +150,11 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_ExcluirActionPerformed
 
     private void ConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultarActionPerformed
-        AbrirCadastroCurriculo();        // TODO add your handling code here:
+        CarregarCurriculo();        // TODO add your handling code here:
     }//GEN-LAST:event_ConsultarActionPerformed
 
     private void AtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtualizarActionPerformed
-        CarregarCurriculo();
+        AtualizarCurriculo();
     }//GEN-LAST:event_AtualizarActionPerformed
 
 

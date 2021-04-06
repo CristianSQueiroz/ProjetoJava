@@ -10,6 +10,7 @@ import Model.Curriculo;
 import java.util.Enumeration;
 import java.util.HashMap;
 import javax.swing.AbstractButton;
+import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
 
 /**
@@ -22,13 +23,43 @@ public class CurriculoJPanel extends javax.swing.JPanel {
     /**
      * Creates new form CurriculoJPanel
      */
-    public CurriculoJPanel(String usuarioNM,Curriculo curriculo) {
+    public CurriculoJPanel(String usuarioNM,Curriculo curriculo,boolean editMode) {
         this.usuarioNM = usuarioNM;
         initComponents();
         Init();
         if(curriculo!= null){
             CarregarCurriculo(curriculo);
         }
+        BloquearCampos(editMode);
+    }
+    
+    public void BloquearCampos(boolean editMode){
+        nomeCompletoJTF.setEditable(editMode);
+        dataJTF.setEditable(editMode);
+        jTextArea1.setEditable(editMode);
+        generoJComboBox.setEnabled(editMode);
+        escolaridadeJCB.setEnabled(editMode);
+       BloquearJRadioButton(javaScriptBG,editMode);
+       BloquearJRadioButton(SQLBG,editMode);
+       BloquearJRadioButton(CSharpBG,editMode);
+       BloquearJRadioButton(GitHubBG,editMode);
+       
+    }
+    
+    private void BloquearJRadioButton(ButtonGroup bg ,boolean editMode){
+        try{
+            Enumeration<AbstractButton> enumButtons = bg.getElements();
+            //Loop para Percorrer todos os elementos da 'Lista'
+            //com a condição de 'executar enquanto houver elementos nessa lista'
+            while(enumButtons.hasMoreElements()){
+                //Percorrendo a lista e pegando o proximo elemento
+                //Guardando o valor e fazendo a conversão do botão abstrato para RadioButton
+                JRadioButton rb = (JRadioButton)enumButtons.nextElement();
+                rb.setEnabled(editMode);
+            }
+        } catch(Exception e){
+            //deu exception
+        } 
     }
     
     public void CarregarCurriculo(Curriculo curriculo){
@@ -37,11 +68,43 @@ public class CurriculoJPanel extends javax.swing.JPanel {
         jTextArea1.setText(curriculo.getExperienciasAdd());
         generoJComboBox.setSelectedItem(curriculo.getGenero());
         escolaridadeJCB.setSelectedItem(curriculo.getEscolaridade());
-       /*
-        buttonGroup1.clearSelection();
-        buttonGroup2.clearSelection();
-        buttonGroup3.clearSelection();
-        buttonGroup4.clearSelection();*/
+       
+        SetSelectionOn(javaScriptBG,curriculo.GetExperienciaJS());
+        SetSelectionOn(SQLBG,curriculo.GetExperienciaSQL());
+        SetSelectionOn(CSharpBG,curriculo.GetExperienciaCSharp());
+        SetSelectionOn(GitHubBG,curriculo.GetExperienciaGitHub());
+    }
+    
+    private void SetSelectionOn(ButtonGroup bg , int index){
+        //Limpa Qualquer seleção deste grupo
+        bg.clearSelection();
+        try{
+            Enumeration<AbstractButton> enumButtons = bg.getElements();
+            //0 - Iniciante
+            //1 - Regular
+            //2 - Avançado
+            
+            //Iniciando o contador;
+            int count = 0;
+            //Loop para Percorrer todos os elementos da 'Lista'
+            //com a condição de 'executar enquanto houver elementos nessa lista'
+            while(enumButtons.hasMoreElements()){
+                //Percorrendo a lista e pegando o proximo elemento
+                //Guardando o valor e fazendo a conversão do botão abstrato para RadioButton
+                JRadioButton rb = (JRadioButton)enumButtons.nextElement();
+                //Fazendo a verificação se o index é o mesmo do RadioButton
+                if(count == index){
+                    //Selecionando o RadioButton
+                    rb.setSelected(true);
+                    //Sair do Loop
+                    return;
+                }
+                //Caso não seja o mesmo index desejado, incrementa o contador e volta ao inicio do loop
+                count++;
+            }
+        } catch(Exception e){
+            //deu exception
+        } 
     }
 
     /**
@@ -53,10 +116,10 @@ public class CurriculoJPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
-        buttonGroup2 = new javax.swing.ButtonGroup();
-        buttonGroup3 = new javax.swing.ButtonGroup();
-        buttonGroup4 = new javax.swing.ButtonGroup();
+        javaScriptBG = new javax.swing.ButtonGroup();
+        SQLBG = new javax.swing.ButtonGroup();
+        CSharpBG = new javax.swing.ButtonGroup();
+        GitHubBG = new javax.swing.ButtonGroup();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -333,13 +396,13 @@ public class CurriculoJPanel extends javax.swing.JPanel {
         //Pegar Valores dos Radios Buttons;
         HashMap<String,Integer> valores = new HashMap<>();
         //Pegando buttao selecionado do grupo Java Script e colocando no HashMap
-        valores.put("JavaScript", GetSelectedRadioButton(buttonGroup1.getElements()));
+        valores.put("JavaScript", GetSelectedRadioButton(javaScriptBG.getElements()));
         //Pegando buttao selecionado do grupo SQL e colocando no HashMap
-        valores.put("SQL", GetSelectedRadioButton(buttonGroup2.getElements()));
+        valores.put("SQL", GetSelectedRadioButton(SQLBG.getElements()));
         //Pegando buttao selecionado do grupo C# e colocando no HashMap
-        valores.put("CSharp", GetSelectedRadioButton(buttonGroup3.getElements()));
+        valores.put("CSharp", GetSelectedRadioButton(CSharpBG.getElements()));
         //Pegando buttao selecionado do grupo GitHUB e colocando no HashMap
-        valores.put("GitHub", GetSelectedRadioButton(buttonGroup4.getElements()));
+        valores.put("GitHub", GetSelectedRadioButton(GitHubBG.getElements()));
         //Retornando o HashMap já preenchido com as informações;
         return valores;
     }
@@ -380,10 +443,10 @@ public class CurriculoJPanel extends javax.swing.JPanel {
         jTextArea1.setText("");
         generoJComboBox.setSelectedIndex(0);
         escolaridadeJCB.setSelectedIndex(0);
-        buttonGroup1.clearSelection();
-        buttonGroup2.clearSelection();
-        buttonGroup3.clearSelection();
-        buttonGroup4.clearSelection();
+        javaScriptBG.clearSelection();
+        SQLBG.clearSelection();
+        CSharpBG.clearSelection();
+        GitHubBG.clearSelection();
     }//GEN-LAST:event_limparJButtonActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -392,33 +455,32 @@ public class CurriculoJPanel extends javax.swing.JPanel {
 
     public void Init(){
         //Java Script
-        buttonGroup1.add(inicianteJS);
-        buttonGroup1.add(regularJS);
-        buttonGroup1.add(avancadoJS);
+        javaScriptBG.add(inicianteJS);
+        javaScriptBG.add(regularJS);
+        javaScriptBG.add(avancadoJS);
         //SQL
-        buttonGroup2.add(inicianteSQL);
-        buttonGroup2.add(regularSQL);
-        buttonGroup2.add(avancadoSQL);
+        SQLBG.add(inicianteSQL);
+        SQLBG.add(regularSQL);
+        SQLBG.add(avancadoSQL);
         //C#
-        buttonGroup3.add(inicianteC);
-        buttonGroup3.add(regularC);
-        buttonGroup3.add(avancadoC);
+        CSharpBG.add(inicianteC);
+        CSharpBG.add(regularC);
+        CSharpBG.add(avancadoC);
         //GIT
-        buttonGroup4.add(inicianteGIT);
-        buttonGroup4.add(regularGIT);
-        buttonGroup4.add(avancadoGIT);
+        GitHubBG.add(inicianteGIT);
+        GitHubBG.add(regularGIT);
+        GitHubBG.add(avancadoGIT);
     }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup CSharpBG;
+    private javax.swing.ButtonGroup GitHubBG;
+    private javax.swing.ButtonGroup SQLBG;
     private javax.swing.JRadioButton avancadoC;
     private javax.swing.JRadioButton avancadoGIT;
     private javax.swing.JRadioButton avancadoJS;
     private javax.swing.JRadioButton avancadoSQL;
-    private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.ButtonGroup buttonGroup2;
-    private javax.swing.ButtonGroup buttonGroup3;
-    private javax.swing.ButtonGroup buttonGroup4;
     private javax.swing.JButton cadastrarButton;
     private javax.swing.JFormattedTextField dataJTF;
     private javax.swing.JComboBox<String> escolaridadeJCB;
@@ -441,6 +503,7 @@ public class CurriculoJPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.ButtonGroup javaScriptBG;
     private javax.swing.JButton limparJButton;
     private javax.swing.JTextField nomeCompletoJTF;
     private javax.swing.JRadioButton regularC;

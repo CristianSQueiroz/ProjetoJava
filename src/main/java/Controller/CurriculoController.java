@@ -48,6 +48,16 @@ public class CurriculoController {
         return MySqlConnect.getInstance().executaComandoPadrao(cmd);
     }
     
+    public boolean HasCurriculoCadastrado(Usuario usuario){
+        String cmd = "SELECT count(1) FROM CURRICULO WHERE USUARIO_NM = "+MySqlConnect.aplicarApostofo(usuario.getUserName());
+        ArrayList<HashMap> retorno = MySqlConnect.getInstance().executaConsultaPadrao(cmd,false);
+        if(retorno.size()>0){
+            Object retornoConsulta = retorno.get(0).get("count(1)");
+            return ((long)retornoConsulta!=0);
+        }
+        return false;
+    }
+    
     public Curriculo GetCurriculo(Usuario usuario){
         String cmd = "SELECT * FROM CURRICULO WHERE USUARIO_NM ="+MySqlConnect.aplicarApostofo(usuario.getUserName());
         ArrayList<HashMap> retorno = MySqlConnect.getInstance().executaConsultaPadrao(cmd);
