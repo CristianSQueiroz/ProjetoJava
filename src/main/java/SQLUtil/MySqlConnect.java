@@ -19,7 +19,7 @@ public class MySqlConnect {
 
     Connection conn;
 
-    String url = "216.172.161.42";
+    String url = "cristianweb.com.br";
     String porta = "3306";
     String db = "crist609_ProjetoCristiano";
     String driver = "com.mysql.cj.jdbc.Driver";
