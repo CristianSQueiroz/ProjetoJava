@@ -5,10 +5,6 @@
  */
 package Model;
 
-/**
- *
- * @author CristianSSD
- */
 public class Usuario {
     private String userName;
     private String password;

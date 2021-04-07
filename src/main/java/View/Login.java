@@ -7,11 +7,8 @@ package View;
 
 import Controller.UsuarioController;
 import Model.Usuario;
+import javax.swing.JOptionPane;
 
-/**
- *
- * @author CristianSSD
- */
 public class Login extends javax.swing.JFrame {
 
     /**
@@ -117,8 +114,13 @@ System.exit(DO_NOTHING_ON_CLOSE);        // TODO add your handling code here:
         Logar();
     }//GEN-LAST:event_loginButtonActionPerformed
 
+    
     private void Logar(){
+        //Cria variavel e preenche o objeto com as informações passadas na tela
         Usuario usuario = new Usuario(userJTF.getText().trim(), passJPF.getText().trim());
+        //chama o método para verificar se o login foi bem sucedido
+        //caso sim, abre a tela principal
+        //caso não alerta ao usuario que alguma coisa deu errado
         if(UsuarioController.GetInstance().Logar(usuario)){
             this.setVisible(false);
             java.awt.EventQueue.invokeLater(new Runnable() {
@@ -127,7 +129,7 @@ System.exit(DO_NOTHING_ON_CLOSE);        // TODO add your handling code here:
                 }
             });
         }else{
-            System.out.println("Algum erro foi encontrado");
+            JOptionPane.showMessageDialog(this, "Algum erro foi encontrado");
         }
     }
     

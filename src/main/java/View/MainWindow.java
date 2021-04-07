@@ -11,15 +11,10 @@ import Model.Usuario;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-/**
- *
- * @author CristianSSD
- */
 public class MainWindow extends javax.swing.JFrame {
 
     private static Usuario usuario;
     private static MainWindow instance;
-    
     
     /**
      * Creates new form MainWindow

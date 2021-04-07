@@ -7,10 +7,6 @@ package Model;
 
 import java.util.HashMap;
 
-/**
- *
- * @author CristianSSD
- */
 public class Curriculo {
     
     private String usuarioNM;

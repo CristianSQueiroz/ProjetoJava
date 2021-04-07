@@ -13,16 +13,16 @@ import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
 
-/**
- *
- * @author CristianSSD
- */
 public class CurriculoJPanel extends javax.swing.JPanel {
 
         private String usuarioNM;
         private Curriculo curriculo;
     /**
-     * Creates new form CurriculoJPanel
+     * MODO DE CADASTRO -> variavel curriculo ser nula e o modo de edição true
+     * MODO DE CONSULTA -> variavel curriculo possuir informações e o 
+     * modo de edição ser falso
+     * MODO DE ATUALIZAÇÃO -> variavel curriculo possuir informações e o
+     * modo de edição ser true
      */
     public CurriculoJPanel(String usuarioNM,Curriculo curriculo,boolean editMode) {
         this.usuarioNM = usuarioNM;
@@ -35,12 +35,14 @@ public class CurriculoJPanel extends javax.swing.JPanel {
         BloquearCampos(editMode);
     }
     
+    
+    //Bloquear ou nao os campos, ele vai alterar o texto do botao cadastrar/atualizar 
     public void BloquearCampos(boolean editMode){
-        nomeCompletoJTF.setEditable(editMode);
-        dataJTF.setEditable(editMode);
-        jTextArea1.setEditable(editMode);
-        generoJComboBox.setEnabled(editMode);
-        escolaridadeJCB.setEnabled(editMode);
+       nomeCompletoJTF.setEditable(editMode);
+       dataJTF.setEditable(editMode);
+       jTextArea1.setEditable(editMode);
+       generoJComboBox.setEnabled(editMode);
+       escolaridadeJCB.setEnabled(editMode);
        BloquearJRadioButton(javaScriptBG,editMode);
        BloquearJRadioButton(SQLBG,editMode);
        BloquearJRadioButton(CSharpBG,editMode);
@@ -58,6 +60,7 @@ public class CurriculoJPanel extends javax.swing.JPanel {
        }
     }
     
+    //Método para bloquear ou não os radioButtons
     private void BloquearJRadioButton(ButtonGroup bg ,boolean editMode){
         try{
             Enumeration<AbstractButton> enumButtons = bg.getElements();
@@ -74,6 +77,8 @@ public class CurriculoJPanel extends javax.swing.JPanel {
         } 
     }
     
+    
+    //preencher as informações do curriculo na tela
     public void CarregarCurriculo(){
         nomeCompletoJTF.setText(curriculo.getNomeCompleto());
         dataJTF.setText(curriculo.getDataNascimento());
@@ -383,9 +388,10 @@ public class CurriculoJPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cadastrarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarButtonActionPerformed
-            Cadastrar();
+        Cadastrar();
     }//GEN-LAST:event_cadastrarButtonActionPerformed
 
+    //Metodo para cadastrar ou atualizar os dados do curriculo
      private void Cadastrar(){
         String nomeCompleto = nomeCompletoJTF.getText().trim();
         String dataNascimento = dataJTF.getText().trim();
@@ -399,6 +405,8 @@ public class CurriculoJPanel extends javax.swing.JPanel {
                 escolaridade,
                 getExperiencias(), 
                 experienciasAdd);
+        //caso não possua curriculo enviado pela tela anterior cadastra
+        //caso possua atualizada
         if(curriculo == null){
             if(CurriculoController.GetInstance().Cadastrar(curriculoTemp)){
                 CloseJPanel();
@@ -476,6 +484,7 @@ public class CurriculoJPanel extends javax.swing.JPanel {
            this.setVisible(false);        // TODO add your handling code here:
     }
     
+    //Adicionar os Radios Buttons nos grupos
     public void Init(){
         //Java Script
         javaScriptBG.add(inicianteJS);
